@@ -7,9 +7,8 @@ import (
 )
 
 type ErrorResponseItem struct {
-	Status int    `json:"status"`
 	Code   int    `json:"code"`
-	Title  string `json:"title"`
+	Status string `json:"status"`
 }
 
 type Response struct {
