@@ -11,10 +11,10 @@ func (user *User) CreateData(w http.ResponseWriter, r *http.Request) {
 
 	//logic
 
-	payload := userResponse{
-		ID:        1,
-		FirstName: "Andi",
-		LasttName: "Aljabar",
+	payload := UserResponse{
+		ID:       1,
+		Username: "ini create",
+		Password: "Aljabar",
 	}
 
 	rt.SendResponse(w, payload, http.StatusOK)
@@ -33,23 +33,22 @@ func (user *User) GetAllData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	payload := userResponse{
-		ID:        DataRaw.ID,
-		FirstName: DataRaw.Username,
-		LasttName: DataRaw.Password,
+	payload := UserResponse{
+		ID:       DataRaw.ID,
+		Username: DataRaw.Username,
+		Password: DataRaw.Password,
 	}
 
 	rt.SendResponse(w, payload, http.StatusOK)
 }
 
 func (user *User) GetSingleData(w http.ResponseWriter, r *http.Request) {
-
 	//logic
 
-	payload := userResponse{
-		ID:        1,
-		FirstName: "Andi",
-		LasttName: "Aljabar",
+	payload := UserResponse{
+		ID:       1,
+		Username: "ini get single",
+		Password: "Aljabar",
 	}
 
 	rt.SendResponse(w, payload, http.StatusOK)
@@ -59,10 +58,10 @@ func (user *User) DeleteData(w http.ResponseWriter, r *http.Request) {
 
 	//logic
 
-	payload := userResponse{
-		ID:        1,
-		FirstName: "Andi",
-		LasttName: "Aljabar",
+	payload := UserResponse{
+		ID:       1,
+		Username: "ini delete",
+		Password: "Aljabar",
 	}
 
 	rt.SendResponse(w, payload, http.StatusOK)
@@ -70,12 +69,21 @@ func (user *User) DeleteData(w http.ResponseWriter, r *http.Request) {
 
 func (user *User) PutData(w http.ResponseWriter, r *http.Request) {
 
-	//logic
+	var request UserRequest
 
-	payload := userResponse{
-		ID:        1,
-		FirstName: "Andi",
-		LasttName: "Aljabar",
+	err := rt.ParseRequest(w, r, &request)
+	if err != nil {
+		errorResponse := rt.ErrorResponseItem{
+			Code:   404,
+			Status: "Not Found",
+		}
+		rt.SendErrorResponse(w, errorResponse, 400)
+	}
+
+	payload := UserResponse{
+		ID:       0,
+		Username: request.Username,
+		Password: request.Password,
 	}
 
 	rt.SendResponse(w, payload, http.StatusOK)
