@@ -1,10 +1,12 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/aljabardotlog/go_mongo_nuxt/controllers/user"
 	"github.com/aljabardotlog/go_mongo_nuxt/handlers"
+	hnd "github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
@@ -18,6 +20,7 @@ func Server() {
 
 	User := user.User{App: &app}
 	//private routes (authentication)
+
 	////authorization
 
 	//public routes
@@ -34,6 +37,11 @@ func Server() {
 	).Methods("PUT")
 	s.HandleFunc("/user/{id}", User.DeleteData).Methods("DELETE")
 
-	http.ListenAndServe(":9001", r)
+	headers := hnd.AllowedHeaders([]string{"Content-Type", "Authorization"})
+	// methods := hnd.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"})
+	methods := hnd.AllowedMethods([]string{"POST"})
+	origins := hnd.AllowedOrigins([]string{"*"})
+
+	log.Fatal(http.ListenAndServe(":9001", hnd.CORS(methods, origins, headers)(r)))
 
 }
