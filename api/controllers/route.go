@@ -26,7 +26,7 @@ func Server() {
 	//public routes
 	s.HandleFunc("/user", User.CreateData).Methods("POST")
 	s.HandleFunc("/user", User.GetAllData).Methods("GET")
-	s.HandleFunc("/user/{id}", User.GetSingleData).Methods("GET")
+	s.HandleFunc("/user/{id}", User.GetSingleData).Methods("POST")
 	s.HandleFunc(
 		"/user/{id}",
 		app.ValidationMiddleware(
@@ -34,8 +34,8 @@ func Server() {
 			user.ErrorMessages,
 			http.HandlerFunc(User.PutData),
 		),
-	).Methods("PUT")
-	s.HandleFunc("/user/{id}", User.DeleteData).Methods("DELETE")
+	).Methods("POST")
+	s.HandleFunc("/user/{id}", User.DeleteData).Methods("POST")
 
 	headers := hnd.AllowedHeaders([]string{"Content-Type", "Authorization"})
 	// methods := hnd.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"})

@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3'
 services:
     redis:
         image: "redis:alpine"
@@ -23,6 +23,15 @@ services:
             - 9001:9001
         volumes:
             - "./api:/app"
+        networks:
+            - webnet
+        restart: always
+    swagger-editor:
+        image: swaggerapi/swagger-editor
+        container_name: swagger_be_api
+        env_file: .env
+        ports:
+            - "$SWAGGER_PORT:8080"
         networks:
             - webnet
         restart: always
